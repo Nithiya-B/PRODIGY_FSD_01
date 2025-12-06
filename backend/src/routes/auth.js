@@ -67,3 +67,6 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ msg: error.message });
   }
 });
+
+// ⭐ VERY IMPORTANT ⭐
+module.exports = router;
