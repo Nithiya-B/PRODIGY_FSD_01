@@ -1,67 +1,28 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
-        name,
-        email,
-        password,
-      });
-      setMessage(res.data.message);
-      console.log("Registration successful:", res.data);
-    } catch (error) {
-      console.error(error);
-      setMessage(error.response?.data?.message || "Registration failed");
-    }
-  };
-
+function Register() {
   return (
     <div>
       <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+      <form>
+        <input type="text" placeholder="Username" />
+        <br />
+        <input type="email" placeholder="Email" />
+        <br />
+        <input type="password" placeholder="Password" />
+        <br />
         <button type="submit">Register</button>
       </form>
-      {message && <p>{message}</p>}
+
+      {/* Link to Login */}
+      <p>
+        Already have an account? <Link to="/login">Login here</Link>
+      </p>
     </div>
   );
-};
+}
 
 export default Register;
-
 
 
