@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-function Login() {
+function Login({ onLoginSuccess }) { // Updated function signature
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -10,12 +10,18 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password
-      }, { withCredentials: true });
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        { email, password },
+        { withCredentials: true }
+      );
 
       setMessage(res.data.msg);
+
+      // Notify App about login success
+      if (res.data.user) {
+        onLoginSuccess(res.data.user);
+      }
     } catch (err) {
       setMessage(err.response?.data?.msg || "Error");
     }
@@ -24,7 +30,6 @@ function Login() {
   return (
     <div>
       <h2>Login</h2>
-
       <form onSubmit={handleLogin}>
         <input 
           type="email" 
@@ -39,7 +44,6 @@ function Login() {
         /><br/>
 
         <button>Login</button>
-
       </form>
 
       <p>{message}</p>
@@ -48,3 +52,4 @@ function Login() {
 }
 
 export default Login;
+

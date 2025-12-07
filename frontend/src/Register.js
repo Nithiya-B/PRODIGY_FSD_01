@@ -10,20 +10,19 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (!name || !email || !password) {
       setMessage("Please fill all fields");
       return;
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
-        name,
-        email,
-        password
-      }, { withCredentials: true });
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        { name, email, password },
+        { withCredentials: true }
+      );
 
-      setMessage(res.data.msg); // Backend should return msg like "User registered successfully"
+      setMessage(res.data.msg); // e.g., "User registered successfully"
     } catch (err) {
       setMessage(err.response?.data?.msg || "Error registering user");
     }
@@ -60,3 +59,4 @@ function Register() {
 }
 
 export default Register;
+
