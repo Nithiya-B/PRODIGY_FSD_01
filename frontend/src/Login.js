@@ -1,10 +1,7 @@
-import { useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function Login({ onLoginSuccess }) { // Updated function signature
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+function Login({ onLoginSuccess }) {
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,40 +13,15 @@ function Login({ onLoginSuccess }) { // Updated function signature
         { withCredentials: true }
       );
 
-      setMessage(res.data.msg);
-
-      // Notify App about login success
       if (res.data.user) {
         onLoginSuccess(res.data.user);
+        navigate("/dashboard"); // Redirect to dashboard
       }
     } catch (err) {
-      setMessage(err.response?.data?.msg || "Error");
+      console.log(err);
     }
   };
-
-  return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input 
-          type="email" 
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        /><br/>
-
-        <input 
-          type="password" 
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        /><br/>
-
-        <button>Login</button>
-      </form>
-
-      <p>{message}</p>
-    </div>
-  );
 }
 
-export default Login;
+
 
